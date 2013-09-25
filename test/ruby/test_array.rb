@@ -2468,4 +2468,40 @@ class TestArray < Test::Unit::TestCase
       skip e.message
     end
   end
+
+  def test_array_no_comma
+    feature8956 = [
+      :foo,
+      :bar,
+      [
+        :baz,
+        :qux
+      ]
+    ]
+
+    assert_equal(feature8956, [
+      :foo
+      :bar
+      [
+        :baz
+        :qux
+      ]
+    ])
+    assert_equal(feature8956, @cls[
+      :foo
+      :bar
+      [
+        :baz
+        :qux
+      ]
+    ])
+    assert_equal(feature8956, @cls.[](
+      :foo
+      :bar
+      [
+        :baz
+        :qux
+      ]
+    ))
+  end
 end

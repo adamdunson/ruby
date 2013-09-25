@@ -31,4 +31,15 @@ class TestCall < Test::Unit::TestCase
     assert_nothing_raised(ArgumentError) {o.foo}
     assert_raise_with_message(ArgumentError, e.message, bug9622) {o.foo(100)}
   end
+
+  def test_call_no_comma
+    assert_equal([1, 2], aaa(1
+                             2))
+    assert_equal([1, 2, 3, 4], aaa(1
+                                   2
+                                   3
+                                   4))
+    assert_equal([1, 2, 3, 4], aaa(1
+                                   *[2, 3, 4]))
+  end
 end

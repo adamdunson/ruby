@@ -1269,6 +1269,42 @@ class TestHash < Test::Unit::TestCase
     assert_equal(bug9381, hash[wrapper.new(5)])
   end
 
+  def test_hash_no_comma
+    feature8956 = {
+      :foo => 'bar',
+      :bar => 'foo',
+      :baz => {
+        :qux => 'quux',
+        :corge => 'grault'
+      }
+    }
+
+    assert_equal(feature8956, {
+      :foo => 'bar'
+      :bar => 'foo'
+      :baz => {
+        :qux => 'quux'
+        :corge => 'grault'
+      }
+    })
+    assert_equal(feature8956, @cls[
+      :foo => 'bar'
+      :bar => 'foo'
+      :baz => {
+        :qux => 'quux'
+        :corge => 'grault'
+      }
+    ])
+    assert_equal(feature8956, @cls.[](
+      :foo => 'bar'
+      :bar => 'foo'
+      :baz => {
+        :qux => 'quux'
+        :corge => 'grault'
+      }
+    ))
+  end
+
   class TestSubHash < TestHash
     class SubHash < Hash
       def reject(*)
